@@ -52,7 +52,7 @@ public class DefaultCrackingService implements CrackingService {
                                                 "Request not found: " + id.toString()));
         Duration dur = Duration.between(taskStatus.getStartTime(), Instant.now());
         if (dur.toMillis() > timeout.toMillis()) {
-            taskStatus.setTaskStage(TaskStatus.Stage.ERROR);
+            taskStatus.setStatus(TaskStatus.Stage.ERROR);
         }
         return taskStatus;
     }
@@ -64,8 +64,8 @@ public class DefaultCrackingService implements CrackingService {
 
         status.completeTask(workerResponse.workerPart(), workerResponse.data());
         if (status.completedTasks() == workersCount
-                && status.getTaskStage().equals(TaskStatus.Stage.IN_PROGRESS)) {
-            status.setTaskStage(TaskStatus.Stage.READY);
+                && status.getStatus().equals(TaskStatus.Stage.IN_PROGRESS)) {
+            status.setStatus(TaskStatus.Stage.READY);
             crackingRepository.update(requestId, status);
         }
     }

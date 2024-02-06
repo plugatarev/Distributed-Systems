@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/hash/")
 @RequiredArgsConstructor
@@ -34,9 +36,9 @@ public class ManagerExternalController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<TaskStatus> getTaskStatus(@RequestParam RequestId requestId)
+    public ResponseEntity<TaskStatus> getTaskStatus(@RequestParam UUID requestId)
             throws NotFoundTaskException {
-        TaskStatus statusTask = crackingService.getTaskStatus(requestId);
+        TaskStatus statusTask = crackingService.getTaskStatus(new RequestId(requestId));
         return ResponseEntity.ok(statusTask);
     }
 }

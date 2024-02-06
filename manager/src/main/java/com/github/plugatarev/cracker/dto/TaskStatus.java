@@ -14,24 +14,26 @@ import java.util.Set;
 
 @Getter
 @AllArgsConstructor
-@JsonIgnoreProperties("startTime")
+@JsonIgnoreProperties({"startTime", "completedTasks"})
 public class TaskStatus {
 
-    @Setter private Stage taskStage;
+    @Setter private Stage status;
     private List<String> data;
     private Set<Integer> completedTasks;
     @Getter private Instant startTime;
 
     public TaskStatus() {
-        this.taskStage = Stage.IN_PROGRESS;
-        this.data = new ArrayList<>();
+        this.status = Stage.IN_PROGRESS;
         this.completedTasks = new HashSet<>();
         this.startTime = Instant.now();
     }
 
-    public void completeTask(int workerPart, List<String> data) {
+    public void completeTask(int workerPart, List<String> result) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
         if (completedTasks.add(workerPart)) {
-            this.data.addAll(data);
+            data.addAll(result);
         }
     }
 
