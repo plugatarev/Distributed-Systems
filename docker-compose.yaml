@@ -2,6 +2,7 @@ version: '3.8'
 services:
   manager:
     build: manager
+    restart: always
     ports:
       - '8080:8080'
     expose:
@@ -13,6 +14,7 @@ services:
 
   worker:
     build: worker
+    restart: always
     expose:
       - '8080'
     environment:
