@@ -1,0 +1,3 @@
+dependencies {
+    implementation 'com.googlecode.combinatoricslib:combinatoricslib:2.3'
+}
