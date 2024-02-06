@@ -1,7 +1,8 @@
 package com.github.plugatarev.cracker.repository;
 
-import com.github.plugatarev.cracker.common.RequestId;
 import com.github.plugatarev.cracker.dto.TaskStatus;
+
+import dto.RequestId;
 
 import java.util.Optional;
 

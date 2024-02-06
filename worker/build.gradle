@@ -1,3 +1,4 @@
 dependencies {
-    implementation 'com.googlecode.combinatoricslib:combinatoricslib:2.3'
+    implementation project(':common-api')
+    implementation 'com.github.dpaukov:combinatoricslib3:3.3.3'
 }

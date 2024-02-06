@@ -1,10 +1,13 @@
 package com.github.plugatarev.cracker.service;
 
-import com.github.plugatarev.cracker.common.RequestId;
 import com.github.plugatarev.cracker.dto.CrackingRequest;
-import com.github.plugatarev.cracker.common.WorkerCrackingRequest;
 import com.github.plugatarev.cracker.exception.TaskSendingException;
+
+import dto.RequestId;
+import dto.WorkerCrackingRequest;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,17 +31,25 @@ public class WebClientTaskSendingService implements TaskSendingService {
     public void sendTasksToWorkers(RequestId requestId, CrackingRequest requestDto) {
         for (int partIndex = 0; partIndex < workersCount; partIndex++) {
             final WorkerCrackingRequest submitTaskRequest =
-                    new WorkerCrackingRequest(requestId, requestDto.hash(), requestDto.maxLength(), partIndex, workersCount, alphabet);
+                    new WorkerCrackingRequest(
+                            requestId,
+                            requestDto.hash(),
+                            requestDto.maxLength(),
+                            partIndex,
+                            workersCount,
+                            alphabet);
 
-            webClient.post()
+            webClient
+                    .post()
                     .uri(workerUrl)
                     .bodyValue(submitTaskRequest)
                     .retrieve()
                     .toBodilessEntity()
                     .toFuture()
-                    .exceptionally(throwable -> {
-                        throw new TaskSendingException(throwable);
-                    });
+                    .exceptionally(
+                            throwable -> {
+                                throw new TaskSendingException(throwable);
+                            });
         }
     }
 }

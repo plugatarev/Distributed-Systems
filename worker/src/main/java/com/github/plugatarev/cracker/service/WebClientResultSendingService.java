@@ -1,8 +1,11 @@
 package com.github.plugatarev.cracker.service;
 
-import com.github.plugatarev.cracker.common.WorkerCrackingResponse;
 import com.github.plugatarev.cracker.exception.ResultSendingException;
+
+import dto.WorkerCrackingResponse;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,14 +21,16 @@ public class WebClientResultSendingService implements ResultSendingService {
 
     @Override
     public void sendResultToManager(WorkerCrackingResponse crackingDto) {
-        webClient.patch()
+        webClient
+                .patch()
                 .uri(managerUrl)
                 .bodyValue(crackingDto)
                 .retrieve()
                 .toBodilessEntity()
                 .toFuture()
-                .exceptionally(throwable -> {
-                    throw new ResultSendingException(throwable);
-                });
+                .exceptionally(
+                        throwable -> {
+                            throw new ResultSendingException(throwable);
+                        });
     }
 }

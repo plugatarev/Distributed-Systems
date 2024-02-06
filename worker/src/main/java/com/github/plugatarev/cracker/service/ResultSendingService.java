@@ -1,7 +1,7 @@
 package com.github.plugatarev.cracker.service;
 
-import com.github.plugatarev.cracker.common.WorkerCrackingResponse;
+import dto.WorkerCrackingResponse;
 
 public interface ResultSendingService {
-        void sendResultToManager(WorkerCrackingResponse crackingDto);
+    void sendResultToManager(WorkerCrackingResponse crackingDto);
 }

@@ -1,9 +1,9 @@
 package com.github.plugatarev.cracker;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootConfiguration
+@SpringBootApplication
 public class WorkerApplication {
 
     public static void main(String[] args) {

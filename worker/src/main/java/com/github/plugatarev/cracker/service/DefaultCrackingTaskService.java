@@ -1,25 +1,21 @@
 package com.github.plugatarev.cracker.service;
 
-import com.github.plugatarev.cracker.common.WorkerCrackingRequest;
-import com.github.plugatarev.cracker.common.WorkerCrackingResponse;
-import com.github.plugatarev.cracker.util.MD5HashGenerator;
-import lombok.RequiredArgsConstructor;
-import org.paukov.combinatorics.Generator;
-import org.paukov.combinatorics.ICombinatoricsVector;
-import org.springframework.stereotype.Service;
+import dto.WorkerCrackingRequest;
+import dto.WorkerCrackingResponse;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.paukov.combinatorics3.Generator;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import static org.paukov.combinatorics.CombinatoricsFactory.createPermutationWithRepetitionGenerator;
-import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultCrackingTaskService implements CrackingTaskService {
@@ -33,70 +29,44 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
                 .thenAccept(sendingService::sendResultToManager);
     }
 
-    public static WorkerCrackingResponse executeTask(WorkerCrackingRequest managerRequest) {
-        final BigDecimal allPossibleWordsNumber = countNumberOfAllPossibleWords(managerRequest.alphabet(),
-                managerRequest.hashLength());
-        final BigDecimal wordsProPart = countNumberOfWordsProPart(allPossibleWordsNumber, managerRequest.taskPartId());
-        final ICombinatoricsVector<String> alphabetVector = createVector(managerRequest.alphabet());
-        BigInteger wordsCounter = BigInteger.ZERO;
-        int currentWordLength = 1;
-        Generator<String> generator = createPermutationWithRepetitionGenerator(alphabetVector, currentWordLength);
-        Iterator<ICombinatoricsVector<String>> iterator = generator.iterator();
-        while (wordsCounter.compareTo(wordsProPart.multiply(BigDecimal
-                .valueOf(managerRequest.taskPartId())).toBigInteger()) < 0) {
-            if (iterator.hasNext()) {
-                wordsCounter = wordsCounter.add(BigInteger.ONE);
-                iterator.next();
-            } else {
-                currentWordLength++;
-                generator = createPermutationWithRepetitionGenerator(alphabetVector, currentWordLength);
-                iterator = generator.iterator();
-            }
+    public WorkerCrackingResponse executeTask(WorkerCrackingRequest managerRequest) {
+        List<String> words = new ArrayList<>();
+        for (int length = 1; length <= managerRequest.hashLength(); length++) {
+            int allWordCount = (int) Math.pow(managerRequest.alphabet().size(), length);
+            int start =
+                    start(managerRequest.taskPartId(), managerRequest.workerCount(), allWordCount);
+            int partWordCount =
+                    currPartCount(
+                            managerRequest.taskPartId(),
+                            managerRequest.workerCount(),
+                            allWordCount);
+            words.addAll(
+                    Generator.permutation(managerRequest.alphabet())
+                            .withRepetitions(length)
+                            .stream()
+                            .skip(start)
+                            .limit(partWordCount)
+                            .map(word -> String.join("", word))
+                            .filter(
+                                    word ->
+                                            managerRequest
+                                                    .hash()
+                                                    .equals(
+                                                            DigestUtils.md5DigestAsHex(
+                                                                    word.getBytes())))
+                            .toList());
         }
-        BigInteger currentPartWordsCounter = BigInteger.ZERO;
-        final StringBuilder stringBuilder = new StringBuilder();
-        final List<String> suitableWords = new ArrayList<>();
-        while (wordsCounter.compareTo(allPossibleWordsNumber.toBigInteger()) < 0 && currentPartWordsCounter
-                .compareTo(wordsProPart.toBigInteger()) < 0) {
-            if (iterator.hasNext()) {
-                final ICombinatoricsVector<String> vector = iterator.next();
-                final String currentWord = getWordFrom(vector, stringBuilder);
-                if (managerRequest.hash().equals(MD5HashGenerator
-                        .generateHashFrom(currentWord))) {
-                    suitableWords.add(currentWord);
-                }
-                stringBuilder.setLength(0);
-                wordsCounter = wordsCounter.add(BigInteger.ONE);
-                currentPartWordsCounter = currentPartWordsCounter.add(BigInteger.ONE);
-            } else {
-                currentWordLength++;
-                generator = createPermutationWithRepetitionGenerator(alphabetVector, currentWordLength);
-                iterator = generator.iterator();
-            }
-        }
-        return new WorkerCrackingResponse(managerRequest.requestId(), managerRequest.taskPartId(), suitableWords);
-
+        return new WorkerCrackingResponse(
+                managerRequest.requestId(), managerRequest.taskPartId(), words);
     }
 
-    private static BigDecimal countNumberOfAllPossibleWords(List<String> alphabet, int maxWordLength) {
-        BigDecimal allPossibleWordsNumber = BigDecimal.ZERO;
-        BigDecimal currentLengthPossibleWordsNumber = BigDecimal.ONE;
-        for (int i = 0; i < maxWordLength; i++) {
-            currentLengthPossibleWordsNumber = currentLengthPossibleWordsNumber.multiply(BigDecimal
-                    .valueOf(alphabet.size()));
-            allPossibleWordsNumber = allPossibleWordsNumber.add(currentLengthPossibleWordsNumber);
-        }
-        return allPossibleWordsNumber;
+    private int start(int partNumber, int partCount, int words) {
+        return (int) Math.ceil((double) words / partCount * partNumber);
     }
 
-    private static BigDecimal countNumberOfWordsProPart(BigDecimal allPossibleWordsNumber, int partCount) {
-        return allPossibleWordsNumber.divide(BigDecimal.valueOf(partCount), RoundingMode.CEILING);
-    }
-
-    private static String getWordFrom(ICombinatoricsVector<String> vector, StringBuilder stringBuilder) {
-        for (String vectorElem : vector) {
-            stringBuilder.append(vectorElem);
-        }
-        return stringBuilder.toString();
+    private int currPartCount(int partNumber, int partCount, int words) {
+        return (int)
+                (Math.ceil((double) words / partCount * (partNumber + 1))
+                        - Math.ceil((double) words / partCount * partNumber));
     }
 }

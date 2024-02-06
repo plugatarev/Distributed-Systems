@@ -1,8 +1,11 @@
 package com.github.plugatarev.cracker.repository;
 
-import com.github.plugatarev.cracker.common.RequestId;
 import com.github.plugatarev.cracker.dto.TaskStatus;
+
+import dto.RequestId;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -12,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class InMemoryCrackingRepository implements CrackingRepository {
 
-    private final ConcurrentHashMap<RequestId, TaskStatus> requests;
+    private final ConcurrentHashMap<RequestId, TaskStatus> requests = new ConcurrentHashMap<>();
 
     @Override
     public void save(RequestId requestId, TaskStatus taskStatus) {

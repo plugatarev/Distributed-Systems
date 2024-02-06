@@ -2,3 +2,4 @@ rootProject.name = 'hash-cracker'
 
 include 'manager'
 include 'worker'
+include 'common-api'
