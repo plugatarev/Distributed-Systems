@@ -1,5 +1,3 @@
 package dto;
 
-import java.util.UUID;
-
-public record RequestId(UUID requestId) {}
+public record RequestId(String requestId) {}

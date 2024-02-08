@@ -1,247 +1,590 @@
-GET http://localhost:8080/api/hash/status?requestId=2701bfcb-e4f9-49d5-a77c-ee8033ef95c5
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
+
+<> 2024-02-13T170146.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb385881181a4b4c8793f9
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2024-02-06T182645.200.json
+<> 2024-02-13T163825.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T182635.200.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId=af4ee51b-1a8d-419b-bb99-d586e5a3e19c
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T182430.200.json
+<> 2024-02-13T163728.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 6}
 
-<> 2024-02-06T182419.200.json
+<> 2024-02-13T163633.200.json
 
 ###
 
-GET http://localhost:8080/api/hash/status?requestId=5d78f6ba-2405-457c-a123-1a4a185b71c0
+GET http://localhost:8080/api/hash/status?requestId=65cb380c81181a4b4c8793f7
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2024-02-06T181118.200.json
-
-###
-
-POST http://localhost:8080/api/hash/crack
-Content-Type: application/json
-Content-Length: 36
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-{ "hash" :  "saas", "maxLength" : 4}
-
-<> 2024-02-06T181111.200.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId=2c0d1fd6-7ddf-4aec-99a4-02748ab9f4e7
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180848.500.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId=2c0d1fd6-7ddf-4aec-99a4-02748ab9f4e7
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180847.500.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId=2c0d1fd6-7ddf-4aec-99a4-02748ab9f4e7
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180843.500.json
+<> 2024-02-13T163621.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T163612.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb380c81181a4b4c8793f7
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-{ "hash" :  "saas", "maxLength" : 4}
-
-<> 2024-02-06T180812.200.json
+<> 2024-02-13T163541.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T180811.200.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId="afbda05f-f35f-49b9-b883-0d0d2473337f"
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180605.500.json
+<> 2024-02-13T163425.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T180602.200.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId="afbda05f-f35f-49b9-b883-0d0d2473337f"
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180529.500.json
+<> 2024-02-13T163405.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T180517.200.json
-
-###
-
-GET http://localhost:8080/api/hash/status?requestId=abdedcab-497d-4b2b-9179-c480b9cbd00b
-Proxy-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2024-02-06T180435.500.json
+<> 2024-02-13T163352.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T180303.200.json
+<> 2024-02-13T163323.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 8}
 
-<> 2024-02-06T180057.200.json
+<> 2024-02-13T163030.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T175731.200.json
+<> 2024-02-13T162947.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T175656.200.json
+<> 2024-02-13T162926.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
 Content-Type: application/json
-Content-Length: 36
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
 
-{ "hash" :  "saas", "maxLength" : 4}
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 5}
 
-<> 2024-02-06T175619.200.json
+<> 2024-02-13T162904.200.json
 
 ###
 
 POST http://localhost:8080/api/hash/crack
-Content-Length: 0
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 65
+
+{ "hash" :  "e2fc714c4727ee9315f324cd2e7f331f", "maxLength" : 10}
+
+<> 2024-02-13T162818.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9315f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T162738.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T162713.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb385881181a4b4c8793f9
 Proxy-Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
-<> 2024-02-06T175318.400.json
+<> 2024-02-13T162205.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb3175f5b89919ce6c18e4
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T162147.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb3175f5b89919ce6c18e4
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T162104.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb239de3bb2964337bbaa1
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T161911.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T161833.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T161809.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cb3175f5b89919ce6c18e4
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T160810.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T160805.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cada41bf2b342f39147ae8
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T150939.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T150901.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T101011.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T100839.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cad96203933417411bc9c1
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T095833.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T095601.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cad96203933417411bc9c1
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T095223.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T095218.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cad85fb92fe22bd30a5d3c
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T095023.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cad85fb92fe22bd30a5d3c
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T094846.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T094759.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cad1f14085660bf3865d30
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T094453.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T094309.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T093209.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T092033.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T091417.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T084550.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T083705.200.json
+
+###
+
+GET http://localhost:8080/api/hash/status?requestId=65cac6e2bdae033f66691bc0
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2024-02-13T083422.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T083322.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T082444.500.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+Content-Length: 64
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-13T081337.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Content-Length: 64
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-12T143904.200.json
+
+###
+
+POST http://localhost:8080/api/hash/crack
+Content-Type: application/json
+Content-Length: 64
+Proxy-Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{ "hash" :  "e2fc714c4727ee9395f324cd2e7f331f", "maxLength" : 4}
+
+<> 2024-02-12T143603.200.json
 
 ###
 

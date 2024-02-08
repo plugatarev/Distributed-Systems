@@ -1,5 +1,9 @@
 FROM openjdk:17-jdk-slim
 
-ADD build/libs/worker-1.0.0-SNAPSHOT.jar worker.jar
+RUN apt-get update && apt-get install -y netcat
 
-ENTRYPOINT ["java","-jar","worker.jar"]
+COPY worker/build/libs/worker-1.0.0-SNAPSHOT.jar worker.jar
+COPY rabbit-setup/rabbit-wait.sh rabbit-wait.sh
+RUN chmod +x ./rabbit-wait.sh
+
+ENTRYPOINT ["./rabbit-wait.sh", "java","-jar","worker.jar"]

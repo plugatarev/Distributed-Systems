@@ -2,30 +2,33 @@ package com.github.plugatarev.cracker.service;
 
 import com.github.plugatarev.cracker.dto.CrackingRequest;
 import com.github.plugatarev.cracker.dto.TaskStatus;
+import com.github.plugatarev.cracker.entity.TaskStatusEntity;
 import com.github.plugatarev.cracker.exception.NotFoundTaskException;
-import com.github.plugatarev.cracker.exception.TaskSendingException;
-import com.github.plugatarev.cracker.repository.CrackingRepository;
+import com.github.plugatarev.cracker.mapper.TaskStatusMapper;
+import com.github.plugatarev.cracker.repository.CrackingTaskRepository;
 
 import dto.RequestId;
 import dto.WorkerCrackingResponse;
+
+import jakarta.annotation.PostConstruct;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.Instant;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class DefaultCrackingService implements CrackingService {
 
-    private final CrackingRepository crackingRepository;
+    private final CrackingTaskRepository crackingRepository;
+    private final TaskStatusMapper taskStatusMapper;
     private final TaskSendingService taskSendingService;
 
     @Value("${cracking-request.timeout}")
@@ -34,54 +37,94 @@ public class DefaultCrackingService implements CrackingService {
     @Value("${workers.number}")
     private int workersCount;
 
+    @PostConstruct
+    public void sendWaitingTasks() {
+        List<TaskStatusEntity> tasks = crackingRepository.findByStatus(TaskStatus.Stage.WAIT);
+        log.info("Handle {} waiting tasks", tasks.size());
+        tasks.forEach(this::sendTaskToWorkers);
+    }
+
     @Override
+    @Transactional
     public RequestId submitCrackingRequest(CrackingRequest crackingRequest) {
-        log.info("Received cracking request from user, hash='{}' and maxLength='{}'", crackingRequest.hash(), crackingRequest.maxLength());
-        RequestId requestId = new RequestId(UUID.randomUUID());
-        TaskStatus taskStatus = new TaskStatus();
+        log.info(
+                "Received cracking request from user, hash='{}' and maxLength='{}'",
+                crackingRequest.hash(),
+                crackingRequest.maxLength());
+        TaskStatusEntity taskStatus =
+                new TaskStatusEntity(crackingRequest.hash(), crackingRequest.maxLength());
 
-        crackingRepository.save(requestId, taskStatus);
-        CompletableFuture<Void> sendStatus = taskSendingService.sendTasksToWorkers(requestId, crackingRequest);
-        sendStatus.exceptionally(ex -> {
-            log.info("Sending task='{}' error", requestId.requestId());
-            taskStatus.setStatus(TaskStatus.Stage.ERROR);
-            crackingRepository.update(requestId, taskStatus);
-            throw new TaskSendingException(ex);
-        });
+        String id = crackingRepository.save(taskStatus).getId();
+        RequestId requestId = new RequestId(id);
 
+        sendTaskToWorkers(taskStatus);
         return requestId;
     }
 
     @Override
-    public synchronized TaskStatus getTaskStatus(RequestId id) throws NotFoundTaskException {
+    @Transactional
+    public TaskStatus getTaskStatus(RequestId id) throws NotFoundTaskException {
         log.info("Received status request from user for task='{}'", id.requestId());
-        TaskStatus taskStatus =
+        TaskStatusEntity taskStatusEntity =
                 crackingRepository
-                        .findById(id)
-                        .orElseThrow(
-                                () ->
-                                        new NotFoundTaskException(
-                                                "Request not found: " + id));
-        Duration dur = Duration.between(taskStatus.getStartTime(), Instant.now());
-        if (dur.toMillis() > timeout.toMillis()) {
-            log.info("Task='{}' timeout", id);
-            taskStatus.setStatus(TaskStatus.Stage.ERROR);
+                        .findById(id.requestId())
+                        .orElseThrow(() -> new NotFoundTaskException("Request not found: " + id));
+
+        if (taskTimeout(taskStatusEntity)) {
+            log.info("Task {} timeout", taskStatusEntity.getId());
+            taskStatusEntity.setStatus(TaskStatus.Stage.ERROR);
+            crackingRepository.save(taskStatusEntity);
         }
-        return taskStatus;
+
+        return taskStatusMapper.entityToDto(taskStatusEntity);
     }
 
     @Override
-    public synchronized void updateTaskStatus(WorkerCrackingResponse workerResponse) {
+    @Transactional
+    public void updateTaskStatus(WorkerCrackingResponse workerResponse) {
         RequestId requestId = workerResponse.id();
-        TaskStatus status = crackingRepository.findById(requestId).orElseThrow();
-        log.info("Received update request from worker for task='{}', workerPart='{}', data='{}'", requestId.requestId(), workerResponse.workerPart(), workerResponse.data());
+        log.info(
+                "Received update request from worker for task='{}', workerPart='{}', data='{}'",
+                requestId.requestId(),
+                workerResponse.workerPart(),
+                workerResponse.data());
+        var taskEntityOptional = crackingRepository.findById(requestId.requestId());
+        if (taskEntityOptional.isEmpty()) {
+            log.info("Task {} not found", workerResponse.id());
+            return;
+        }
+        var taskEntity = taskEntityOptional.get();
+        var status = taskStatusMapper.entityToDto(taskEntity);
 
         status.completeTask(workerResponse.workerPart(), workerResponse.data());
+        taskEntity.setCompletedTasks(status.getCompletedTasks());
+        taskEntity.setData(status.getData());
         if (status.completedTasks() == workersCount
                 && status.getStatus().equals(TaskStatus.Stage.IN_PROGRESS)) {
             log.info("Task='{}' ready", requestId);
             status.setStatus(TaskStatus.Stage.READY);
-            crackingRepository.update(requestId, status);
+            taskEntity.setStatus(status.getStatus());
+        }
+        crackingRepository.save(taskEntity);
+    }
+
+    private boolean taskTimeout(TaskStatusEntity taskStatusEntity) {
+        return TaskStatus.Stage.IN_PROGRESS.equals(taskStatusEntity.getStatus())
+                && System.currentTimeMillis() - taskStatusEntity.getStartTime()
+                        > timeout.toMillis();
+    }
+
+    private void sendTaskToWorkers(TaskStatusEntity task) {
+        try {
+            CrackingRequest request = new CrackingRequest(task.getHash(), task.getMaxLength());
+            taskSendingService.sendTasksToWorkers(new RequestId(task.getId()), request);
+            task.setStatus(TaskStatus.Stage.IN_PROGRESS);
+            crackingRepository.save(task);
+        } catch (Exception e) {
+            log.error(
+                    String.format(
+                            "Can't send task %s - %s to workers", task.getId(), e.getMessage()),
+                    e);
         }
     }
 }
