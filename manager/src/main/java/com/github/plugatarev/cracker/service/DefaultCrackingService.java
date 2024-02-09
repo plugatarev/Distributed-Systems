@@ -3,20 +3,22 @@ package com.github.plugatarev.cracker.service;
 import com.github.plugatarev.cracker.dto.CrackingRequest;
 import com.github.plugatarev.cracker.dto.TaskStatus;
 import com.github.plugatarev.cracker.exception.NotFoundTaskException;
+import com.github.plugatarev.cracker.exception.TaskSendingException;
 import com.github.plugatarev.cracker.repository.CrackingRepository;
 
 import dto.RequestId;
 import dto.WorkerCrackingResponse;
 
 import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -39,13 +41,19 @@ public class DefaultCrackingService implements CrackingService {
         TaskStatus taskStatus = new TaskStatus();
 
         crackingRepository.save(requestId, taskStatus);
-        taskSendingService.sendTasksToWorkers(requestId, crackingRequest);
+        CompletableFuture<Void> sendStatus = taskSendingService.sendTasksToWorkers(requestId, crackingRequest);
+        sendStatus.exceptionally(ex -> {
+            log.info("Sending task='{}' error", requestId.requestId());
+            taskStatus.setStatus(TaskStatus.Stage.ERROR);
+            crackingRepository.update(requestId, taskStatus);
+            throw new TaskSendingException(ex);
+        });
 
         return requestId;
     }
 
     @Override
-    public TaskStatus getTaskStatus(RequestId id) throws NotFoundTaskException {
+    public synchronized TaskStatus getTaskStatus(RequestId id) throws NotFoundTaskException {
         log.info("Received status request from user for task='{}'", id.requestId());
         TaskStatus taskStatus =
                 crackingRepository

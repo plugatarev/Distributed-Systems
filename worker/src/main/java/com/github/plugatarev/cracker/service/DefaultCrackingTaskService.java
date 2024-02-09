@@ -10,6 +10,7 @@ import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -51,9 +52,15 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
                             .map(word -> String.join("", word))
                             .filter(
                                     word -> {
-                                        String current = DigestUtils.md5DigestAsHex(word.getBytes());
+                                        String current =
+                                                DigestUtils.md5DigestAsHex(
+                                                        word.getBytes(StandardCharsets.UTF_8));
                                         if (managerRequest.hash().equals(current)) {
-                                            log.info("New result='{}' for hash='{}' with length='{}'", current, managerRequest.hash(), managerRequest.hashLength());
+                                            log.info(
+                                                    "New result='{}' for hash='{}' with length='{}'",
+                                                    current,
+                                                    managerRequest.hash(),
+                                                    managerRequest.hashLength());
                                             return true;
                                         }
                                         return false;

@@ -30,6 +30,6 @@ public class InMemoryCrackingRepository implements CrackingRepository {
     @Override
     public Optional<TaskStatus> findById(RequestId id) {
         TaskStatus taskStatus = requests.get(id);
-        return taskStatus == null ? Optional.empty() : Optional.of(taskStatus);
+        return Optional.ofNullable(taskStatus);
     }
 }

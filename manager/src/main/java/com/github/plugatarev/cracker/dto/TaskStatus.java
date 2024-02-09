@@ -17,10 +17,12 @@ import java.util.Set;
 @JsonIgnoreProperties({"startTime", "completedTasks"})
 public class TaskStatus {
 
-    @Setter private Stage status;
+    @Setter
+    private Stage status;
     private List<String> data;
     private Set<Integer> completedTasks;
-    @Getter private Instant startTime;
+    @Getter
+    private Instant startTime;
 
     public TaskStatus() {
         this.status = Stage.IN_PROGRESS;
