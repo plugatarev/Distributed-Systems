@@ -10,6 +10,7 @@ import org.paukov.combinatorics3.Generator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -25,11 +26,13 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
 
     @Override
     public void executeCrackingTask(WorkerCrackingRequest managerRequest) {
+        log.info("Received cracking task from manager for id='{}'", managerRequest.id().requestId());
         CompletableFuture.supplyAsync(() -> executeTask(managerRequest), crackingTaskExecutor)
                 .thenAccept(sendingService::sendResultToManager);
     }
 
-    public WorkerCrackingResponse executeTask(WorkerCrackingRequest managerRequest) {
+    private WorkerCrackingResponse executeTask(WorkerCrackingRequest managerRequest) {
+        log.info("Start execution task='{}' for part='{}'", managerRequest.id().requestId(), managerRequest.taskPartId());
         List<String> words = new ArrayList<>();
         for (int length = 1; length <= managerRequest.hashLength(); length++) {
             int allWordCount = (int) Math.pow(managerRequest.alphabet().size(), length);
@@ -48,16 +51,25 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
                             .limit(partWordCount)
                             .map(word -> String.join("", word))
                             .filter(
-                                    word ->
-                                            managerRequest
-                                                    .hash()
-                                                    .equals(
-                                                            DigestUtils.md5DigestAsHex(
-                                                                    word.getBytes())))
+                                    word -> {
+                                        String current =
+                                                DigestUtils.md5DigestAsHex(
+                                                        word.getBytes(StandardCharsets.UTF_8));
+                                        if (managerRequest.hash().equals(current)) {
+                                            log.info(
+                                                    "New result='{}' for hash='{}' with length='{}'",
+                                                    current,
+                                                    managerRequest.hash(),
+                                                    managerRequest.hashLength());
+                                            return true;
+                                        }
+                                        return false;
+                                    })
                             .toList());
         }
+        log.info("Finished execution task, result='{}'", words);
         return new WorkerCrackingResponse(
-                managerRequest.requestId(), managerRequest.taskPartId(), words);
+                managerRequest.id(), managerRequest.taskPartId(), words);
     }
 
     private int start(int partNumber, int partCount, int words) {

@@ -3,7 +3,7 @@ package dto;
 import java.util.List;
 
 public record WorkerCrackingRequest(
-        RequestId requestId,
+        RequestId id,
         String hash,
         int hashLength,
         int taskPartId,

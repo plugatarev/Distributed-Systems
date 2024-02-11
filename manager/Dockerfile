@@ -1,5 +1,5 @@
-FROM openjdk:17-alpine
+FROM openjdk:17-jdk-slim
 
-ADD build/libs/manager-*.jar manager.jar
+ADD build/libs/manager-1.0.0-SNAPSHOT.jar manager.jar
 
 ENTRYPOINT ["java","-jar","manager.jar"]

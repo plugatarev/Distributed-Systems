@@ -1,14 +1,18 @@
 package com.github.plugatarev.cracker.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class BeanConfiguration {
+
+    @Value("${thread-pool.task-execute.size}")
+    private Integer threadPoolTaskExecuteSize;
 
     @Bean
     public WebClient webClient() {
@@ -17,6 +21,6 @@ public class BeanConfiguration {
 
     @Bean
     public Executor crackingTaskExecutor() {
-        return new ThreadPoolTaskExecutor();
+        return Executors.newFixedThreadPool(threadPoolTaskExecuteSize);
     }
 }
