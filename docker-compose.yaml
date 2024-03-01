@@ -1,23 +1,92 @@
-version: '3.3'
+version: '3.9'
 services:
+
   manager:
-    build: manager
+    build:
+      context: .
+      dockerfile: manager/Dockerfile
     ports:
       - '8080:8080'
+    depends_on:
+      - rabbitmq3
+      - mongodb-primary
     expose:
       - '8080'
     environment:
       - PORT=8080
-      - WORKER_HOST=worker
-      - WORKER_PORT=8081
+      - WORKERS_NUMBER=5
 
   worker:
-    build: worker
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
     ports:
-      - '8081:8081'
-    expose:
-      - '8081'
+      - '8081-8085:8081'
+    depends_on:
+      - rabbitmq3
     environment:
       - PORT=8081
-      - MANAGER_HOST=manager
-      - MANAGER_PORT=8080
+    deploy:
+      mode: replicated
+      replicas: 5
+
+  mongodb-primary:
+    image: mongo:4
+    restart: always
+    container_name: mongodb-primary
+    volumes:
+      - mongodata-primary:/data/db
+    ports:
+      - "27017:27017"
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rsmongo", "--bind_ip_all" ]
+
+  mongodb-secondary1:
+    image: mongo:4
+    restart: always
+    container_name: mongodb-secondary1
+    volumes:
+      - mongodata-secondary1:/data/db
+    ports:
+      - "27018:27017"
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rsmongo", "--bind_ip_all" ]
+
+  mongodb3-secondary2:
+    image: mongo:4
+    restart: always
+    container_name: mongodb-secondary2
+    volumes:
+      - mongodata-secondary2:/data/db
+    ports:
+      - "27019:27017"
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rsmongo", "--bind_ip_all" ]
+
+  mongosetup:
+    image: "mongo-setup"
+    build: "./mongo-setup"
+    container_name: "mongosetup"
+    depends_on:
+      - mongodb-primary
+    volumes:
+      - mongosetup:/data/
+
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+volumes:
+  mongosetup:
+  mongodata-primary:
+  mongodata-secondary1:
+  mongodata-secondary2:
+  rabbitmq:

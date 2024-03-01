@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,18 +16,10 @@ import java.util.Set;
 @JsonIgnoreProperties({"startTime", "completedTasks"})
 public class TaskStatus {
 
-    @Setter
-    private Stage status;
+    @Setter private Stage status;
     private List<String> data;
     private Set<Integer> completedTasks;
-    @Getter
-    private Instant startTime;
-
-    public TaskStatus() {
-        this.status = Stage.IN_PROGRESS;
-        this.completedTasks = new HashSet<>();
-        this.startTime = Instant.now();
-    }
+    @Getter private Instant startTime;
 
     public void completeTask(int workerPart, List<String> result) {
         if (data == null) {
@@ -46,6 +37,7 @@ public class TaskStatus {
     public enum Stage {
         IN_PROGRESS,
         READY,
-        ERROR
+        ERROR,
+        WAIT
     }
 }

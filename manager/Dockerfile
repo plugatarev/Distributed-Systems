@@ -1,5 +1,9 @@
 FROM openjdk:17-jdk-slim
 
-ADD build/libs/manager-1.0.0-SNAPSHOT.jar manager.jar
+RUN apt-get update && apt-get install -y netcat
 
-ENTRYPOINT ["java","-jar","manager.jar"]
+COPY manager/build/libs/manager-1.0.0-SNAPSHOT.jar manager.jar
+COPY rabbit-setup/rabbit-wait.sh rabbit-wait.sh
+RUN chmod +x ./rabbit-wait.sh
+
+ENTRYPOINT ["./rabbit-wait.sh", "java","-jar","manager.jar"]

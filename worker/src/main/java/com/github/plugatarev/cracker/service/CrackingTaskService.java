@@ -1,8 +1,12 @@
 package com.github.plugatarev.cracker.service;
 
 import dto.WorkerCrackingRequest;
+import dto.WorkerCrackingResponse;
+
+import java.util.concurrent.CompletableFuture;
 
 public interface CrackingTaskService {
 
-    void executeCrackingTask(WorkerCrackingRequest managerRequest);
+    CompletableFuture<WorkerCrackingResponse> executeCrackingTask(
+            WorkerCrackingRequest managerRequest);
 }

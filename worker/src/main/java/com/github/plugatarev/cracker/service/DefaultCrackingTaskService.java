@@ -21,18 +21,22 @@ import java.util.concurrent.Executor;
 @RequiredArgsConstructor
 public class DefaultCrackingTaskService implements CrackingTaskService {
 
-    private final WebClientResultSendingService sendingService;
     private final Executor crackingTaskExecutor;
 
     @Override
-    public void executeCrackingTask(WorkerCrackingRequest managerRequest) {
-        log.info("Received cracking task from manager for id='{}'", managerRequest.id().requestId());
-        CompletableFuture.supplyAsync(() -> executeTask(managerRequest), crackingTaskExecutor)
-                .thenAccept(sendingService::sendResultToManager);
+    public CompletableFuture<WorkerCrackingResponse> executeCrackingTask(
+            WorkerCrackingRequest managerRequest) {
+        log.info(
+                "Received cracking task from manager for id='{}'", managerRequest.id().requestId());
+        return CompletableFuture.supplyAsync(
+                () -> executeTask(managerRequest), crackingTaskExecutor);
     }
 
     private WorkerCrackingResponse executeTask(WorkerCrackingRequest managerRequest) {
-        log.info("Start execution task='{}' for part='{}'", managerRequest.id().requestId(), managerRequest.taskPartId());
+        log.info(
+                "Start execution task='{}' for part='{}'",
+                managerRequest.id().requestId(),
+                managerRequest.taskPartId());
         List<String> words = new ArrayList<>();
         for (int length = 1; length <= managerRequest.hashLength(); length++) {
             int allWordCount = (int) Math.pow(managerRequest.alphabet().size(), length);
@@ -58,7 +62,7 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
                                         if (managerRequest.hash().equals(current)) {
                                             log.info(
                                                     "New result='{}' for hash='{}' with length='{}'",
-                                                    current,
+                                                    word,
                                                     managerRequest.hash(),
                                                     managerRequest.hashLength());
                                             return true;
@@ -68,8 +72,7 @@ public class DefaultCrackingTaskService implements CrackingTaskService {
                             .toList());
         }
         log.info("Finished execution task, result='{}'", words);
-        return new WorkerCrackingResponse(
-                managerRequest.id(), managerRequest.taskPartId(), words);
+        return new WorkerCrackingResponse(managerRequest.id(), managerRequest.taskPartId(), words);
     }
 
     private int start(int partNumber, int partCount, int words) {
