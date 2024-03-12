@@ -46,6 +46,16 @@ public class CrackingTaskConsumer {
                         });
     }
 
+    private static void sendNack(Channel channel, long tag) {
+        try {
+            if (channel.isOpen()) {
+                channel.basicNack(tag, false, true);
+            }
+        } catch (IOException e) {
+            log.error("Failed to nack message", e);
+        }
+    }
+
     private void sentToManager(
             WorkerCrackingRequest managerRequest,
             Channel channel,
@@ -57,16 +67,6 @@ public class CrackingTaskConsumer {
         } catch (Exception e) {
             String errorMessage = "Error working on task " + managerRequest.id().requestId();
             throw new RuntimeException(errorMessage, e);
-        }
-    }
-
-    private static void sendNack(Channel channel, long tag) {
-        try {
-            if (channel.isOpen()) {
-                channel.basicNack(tag, false, true);
-            }
-        } catch (IOException e) {
-            log.error("Failed to nack message", e);
         }
     }
 }
